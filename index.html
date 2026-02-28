@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aww, Mela Bacha 🥺❤️</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa; /* Soothing hospital-like blue turning into cute colors */
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #00838f;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .emoji-big {
+            font-size: 4rem;
+            margin: 10px 0;
+            animation: shake 0.5s infinite alternate;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        /* The Tricky Button */
+        #hugBtn {
+            background: linear-gradient(45deg, #ff4081, #ff79b0);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(255, 64, 129, 0.4);
+            position: absolute;
+            transition: all 0.2s ease-out;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 20px;
+        }
+
+        /* Final Success Screen */
+        #successScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #fff0f3;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 20;
+        }
+
+        #successScreen img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 8px solid #ff4081;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        #successScreen h1 {
+            color: #e91e63;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Falling Kisses */
+        .kiss {
+            position: fixed;
+            font-size: 30px;
+            animation: fall 3s linear forwards;
+            z-index: 15;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainCard">
+        <div class="emoji-big" id="mainEmoji">💉😭</div>
+        <h1 id="headline">Sui Lag Gayi?</h1>
+        <p id="subtext">Suna hai koi bohot ro raha hai aaj? Dard ho raha hai na? <br><br> Chalo rona band karo, apna <b>Jaadu Ki Jhappi</b> collect karo aur smile karo!</p>
+        
+        <button id="hugBtn">Jhappi Le Lo! 🤗</button>
+    </div>
+
+    <div id="successScreen">
+        <img src="img3.jpg" alt="Smiling Jaan">
+        <h1>Dard Chhu-Mantar! ✨</h1>
+        <p>Aise hi humesha hasti raha karo! <br>Roti hui bilkul achi nahi lagti mera bacha. <br>I love you! ❤️</p>
+    </div>
+
+    <script>
+        const hugBtn = document.getElementById('hugBtn');
+        const mainCard = document.getElementById('mainCard');
+        const successScreen = document.getElementById('successScreen');
+        
+        let dodges = 0;
+        const funnyTexts = [
+            "Arey idhar hoon! 😜",
+            "Hath nahi aunga! 🏃‍♂️",
+            "Miss kar diya! 😂",
+            "Thoda aur tej! 💨",
+            "Dard bhool gayi na? 🤭",
+            "Pakdo pakdo! 🙈"
+        ];
+
+        // Function to move the button
+        function runAway(e) {
+            if (dodges < 6) {
+                // Prevent click on touch devices during the chase
+                if(e.cancelable) e.preventDefault(); 
+                
+                // Change text
+                hugBtn.innerText = funnyTexts[dodges % funnyTexts.length];
+                
+                // Make button position absolute if it isn't
+                hugBtn.style.position = 'fixed';
+                
+                // Calculate safe boundaries so it doesn't go off-screen
+                const maxX = window.innerWidth - hugBtn.clientWidth - 20;
+                const maxY = window.innerHeight - hugBtn.clientHeight - 20;
+                
+                const randomX = Math.max(20, Math.random() * maxX);
+                const randomY = Math.max(20, Math.random() * maxY);
+                
+                hugBtn.style.left = randomX + 'px';
+                hugBtn.style.top = randomY + 'px';
+                hugBtn.style.transform = 'none'; // Remove centering transform
+                
+                dodges++;
+            } else if (dodges === 6) {
+                // Button gives up
+                hugBtn.innerText = "Acha thak gaya, le lo Jhappi! 🥺🤗";
+                dodges++;
+            }
+        }
+
+        // Add listeners for both mouse and touch (mobile)
+        hugBtn.addEventListener('mouseover', runAway);
+        hugBtn.addEventListener('touchstart', runAway);
+
+        // What happens when she finally clicks it
+        hugBtn.addEventListener('click', function(e) {
+            if (dodges >= 6) {
+                mainCard.style.display = 'none';
+                hugBtn.style.display = 'none';
+                successScreen.style.display = 'flex';
+                
+                // Start raining kisses!
+                setInterval(createKiss, 200);
+            }
+        });
+
+        // Function to rain kisses
+        function createKiss() {
+            const kiss = document.createElement('div');
+            kiss.classList.add('kiss');
+            kiss.innerHTML = '😘';
+            kiss.style.left = Math.random() * 100 + "vw";
+            kiss.style.fontSize = Math.random() * 20 + 20 + "px";
+            document.body.appendChild(kiss);
+
+            setTimeout(() => {
+                kiss.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
